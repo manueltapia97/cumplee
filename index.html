@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>🎤 Presiona y confía</title>
+<title>🎤 Mini Experience</title>
 
 <style>
 
@@ -23,6 +24,7 @@ body{
   min-height:100vh;
 }
 
+/* ✨ glow fondo */
 body::before{
   content:"";
   position:fixed;
@@ -56,42 +58,38 @@ h1{
 
 h2{
   font-size:1.4rem;
-  font-weight:500;
   margin-bottom:10px;
 }
 
 p{
-  font-size:1rem;
   line-height:1.5;
-  opacity:.9;
+  opacity:.92;
 }
 
 h5{
-  opacity:.6;
+  opacity:.65;
   margin-bottom:20px;
 }
 
+/* 🎀 botones */
 button{
   width:100%;
   max-width:280px;
 
-  padding:15px 20px;
+  padding:15px 18px;
   margin:10px 0;
 
   border:none;
   border-radius:18px;
 
-  cursor:pointer;
-
-  background:linear-gradient(
-    135deg,
-    #7b2ff7,
-    #f107a3
-  );
+  background:
+    linear-gradient(135deg,#7b2ff7,#f107a3);
 
   color:white;
   font-size:1rem;
   font-weight:700;
+
+  cursor:pointer;
 
   box-shadow:
     0 10px 25px rgba(241,7,163,.25);
@@ -99,14 +97,15 @@ button{
   transition:.25s;
 }
 
-button:active{
-  transform:scale(.96);
-}
-
 button:hover{
   transform:translateY(-2px);
 }
 
+button:active{
+  transform:scale(.96);
+}
+
+/* 🖼 imágenes */
 img{
   width:100%;
   max-width:280px;
@@ -119,7 +118,7 @@ img{
     0 15px 35px rgba(0,0,0,.45),
     0 0 25px rgba(255,255,255,.08);
 
-  animation:fade .5s ease;
+  animation:fade .45s ease;
 }
 
 @keyframes fade{
@@ -133,6 +132,7 @@ img{
   }
 }
 
+/* 🎊 confeti */
 .fx{
   position:fixed;
   width:8px;
@@ -141,6 +141,7 @@ img{
   z-index:999;
 }
 
+/* 📱 responsive */
 @media(max-width:480px){
 
   h1{
@@ -156,8 +157,8 @@ img{
   }
 
   button{
-    font-size:.95rem;
     padding:14px;
+    font-size:.95rem;
   }
 
 }
@@ -167,16 +168,21 @@ img{
 
 <body>
 
+<!-- 🎵 AUDIO -->
 <audio id="music" preload="auto">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container" id="app">
+
+  <h1>🎤 Mini Experience</h1>
+
   <h2>Presiona y confía 😌</h2>
 
-  <button onclick="start()">
-    Entrar 
+  <button id="startBtn">
+    Entrar ✨
   </button>
+
 </div>
 
 <script>
@@ -184,8 +190,16 @@ img{
 const app = document.getElementById("app");
 const music = document.getElementById("music");
 
-let btsUnlocked = false;
+/* 🔓 progreso */
+let visitedRandom = false;
+let visitedFlow = false;
 
+/* 🚀 botón inicial */
+document
+  .getElementById("startBtn")
+  .addEventListener("click", start);
+
+/* 🚀 inicio */
 function start(){
 
   app.innerHTML = `
@@ -194,56 +208,75 @@ function start(){
     <p>¿Cómo va el día?</p>
 
     <h5>
-      no podrás presionar el botón
+      no podrás presionar
       "Medio meh" 😈
     </h5>
 
-    <button onclick="good()">
+    <button id="goodBtn">
       Chill 😎
     </button>
 
-    <button id="bad">
+    <button id="badBtn">
       Medio meh 😅
     </button>
   `;
 
-  const bad = document.getElementById("bad");
+  const bad =
+    document.getElementById("badBtn");
+
+  const good =
+    document.getElementById("goodBtn");
+
+  good.addEventListener("click", goodMood);
 
   function moveButton(){
 
-    const x = Math.random()*120 - 60;
-    const y = Math.random()*120 - 60;
+    const x =
+      Math.random()*120 - 60;
+
+    const y =
+      Math.random()*120 - 60;
 
     bad.style.transform =
       `translate(${x}px,${y}px)`;
   }
 
-  bad.addEventListener("mouseover",moveButton);
-  bad.addEventListener("touchstart",moveButton);
+  bad.addEventListener(
+    "mouseenter",
+    moveButton
+  );
+
+  bad.addEventListener(
+    "touchstart",
+    moveButton
+  );
 }
 
-function good(){
+/* 😌 mood */
+function goodMood(){
 
   app.innerHTML = `
     <h2>Nice 😌</h2>
 
     <p>Sigamos...</p>
 
-    <button id="continueNice">
-      Continuar
+    <button id="continueBtn">
+      Continuar ✨
     </button>
   `;
 
   document
-    .getElementById("continueNice")
+    .getElementById("continueBtn")
     .addEventListener("click", next);
 }
+
+/* 🎶 menú */
 function next(){
 
-  const status1 =
+  const randomStatus =
     visitedRandom ? "✅" : "❌";
 
-  const status2 =
+  const flowStatus =
     visitedFlow ? "✅" : "❌";
 
   app.innerHTML = `
@@ -251,23 +284,36 @@ function next(){
 
     <p style="opacity:.7;">
       Desbloquea BTS explorando
-      los otros modos 😌
+      todos los modos 😌
     </p>
 
-    <button onclick="choose()">
+    <button id="btsBtn">
       BTS 💜
     </button>
 
-    <button onclick="choose1()">
-      Algo random 🎧 ${status1}
+    <button id="randomBtn">
+      Algo random 🎧 ${randomStatus}
     </button>
 
-    <button onclick="choose2()">
-      Flow 🔥 ${status2}
+    <button id="flowBtn">
+      Flow 🔥 ${flowStatus}
     </button>
   `;
+
+  document
+    .getElementById("btsBtn")
+    .addEventListener("click", chooseBTS);
+
+  document
+    .getElementById("randomBtn")
+    .addEventListener("click", chooseRandom);
+
+  document
+    .getElementById("flowBtn")
+    .addEventListener("click", chooseFlow);
 }
-  
+
+/* 🔊 música */
 function playMusic(){
 
   music.currentTime = 0;
@@ -275,7 +321,9 @@ function playMusic(){
 
   music.play().catch(()=>{});
 }
-function choose(){
+
+/* 💜 BTS */
+function chooseBTS(){
 
   if(!(visitedRandom && visitedFlow)){
 
@@ -283,7 +331,7 @@ function choose(){
       <h2>🔒 BTS bloqueado</h2>
 
       <p>
-        Debes probar:
+        Debes probar primero:
       </p>
 
       <p>
@@ -291,10 +339,14 @@ function choose(){
         🔥 Flow
       </p>
 
-      <button onclick="next()">
+      <button id="backBtn">
         Volver
       </button>
     `;
+
+    document
+      .getElementById("backBtn")
+      .addEventListener("click", next);
 
     return;
   }
@@ -308,17 +360,26 @@ function choose(){
 
     <img src="img1.jpg">
 
-    <button onclick="next()">
+    <button id="backBtn">
       ⬅ Atrás
     </button>
 
-    <button onclick="final()">
-      Continuar
+    <button id="finalBtn">
+      Continuar ✨
     </button>
   `;
+
+  document
+    .getElementById("backBtn")
+    .addEventListener("click", next);
+
+  document
+    .getElementById("finalBtn")
+    .addEventListener("click", finalScreen);
 }
 
-function choose1(){
+/* 🎧 random */
+function chooseRandom(){
 
   visitedRandom = true;
 
@@ -326,24 +387,28 @@ function choose1(){
 
   app.innerHTML = `
     <h2>
-      Interesante,
-      pero solo BTS 😎
+      Interesante 😎
     </h2>
 
     <p>
-      100% 🔊,
+      100% 🔊<br>
       NO ENTIENDOO!
     </p>
 
     <img src="Jungkook.jpg">
 
-    <button onclick="next()">
+    <button id="backBtn">
       ⬅ Atrás
     </button>
   `;
+
+  document
+    .getElementById("backBtn")
+    .addEventListener("click", next);
 }
 
-function choose2(){
+/* 🔥 flow */
+function chooseFlow(){
 
   visitedFlow = true;
 
@@ -355,20 +420,27 @@ function choose2(){
     </h2>
 
     <p>
-      solo hay audio de BTS 😄
+      solo hay audio
+      de BTS 😄
     </p>
 
     <img src="dori.jpg">
 
-    <button onclick="next()">
+    <button id="backBtn">
       ⬅ Atrás
     </button>
   `;
+
+  document
+    .getElementById("backBtn")
+    .addEventListener("click", next);
 }
 
+/* 🎊 confeti */
 function confetti(){
 
-  const interval = setInterval(()=>{
+  const interval =
+    setInterval(()=>{
 
     const c =
       document.createElement("div");
@@ -388,7 +460,8 @@ function confetti(){
 
     let y = 0;
 
-    const anim = setInterval(()=>{
+    const anim =
+      setInterval(()=>{
 
       y += 6;
 
@@ -398,7 +471,6 @@ function confetti(){
       if(y > window.innerHeight){
 
         clearInterval(anim);
-
         c.remove();
       }
 
@@ -406,18 +478,20 @@ function confetti(){
 
   },70);
 
-  setTimeout(
-    ()=>clearInterval(interval),
-    5000
-  );
+  setTimeout(()=>{
+    clearInterval(interval);
+  },5000);
 }
 
-function final(){
+/* 🎉 final */
+function finalScreen(){
 
   app.innerHTML = `
     <h1>🎉 Feliz Cumple 🎉</h1>
 
-    <h2>Crystel Lissette 💜</h2>
+    <h2>
+      Crystel Lissette 💜
+    </h2>
 
     <p>
       No sabía qué regalarte,
