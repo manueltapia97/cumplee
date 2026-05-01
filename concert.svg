@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400">
+  <rect width="100%" height="100%" fill="black"></rect>
+  <circle cx="100" cy="100" r="80" fill="purple" opacity="0.6"></circle>
+  <circle cx="300" cy="100" r="80" fill="blue" opacity="0.6"></circle>
+  <circle cx="200" cy="300" r="100" fill="pink" opacity="0.5"></circle>
+  <text x="50%" y="50%" fill="white" font-size="20" text-anchor="middle">
+    CONCERT MODE 🎤
+  </text>
+</svg>

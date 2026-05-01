@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>🎤 Mini Experience</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color: white;
+  overflow: hidden;
+  text-align: center;
+}
+
+.container {
+  margin-top: 12vh;
+  padding: 20px;
+}
+
+button {
+  padding: 12px 18px;
+  margin: 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(45deg, purple, hotpink);
+  color: white;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+img {
+  width: 220px;
+  margin-top: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255,255,255,0.15);
+}
+
+.fx {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 AUDIO -->
+<audio id="music" preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" id="app">
+  <h1>🎤 Mini Experience</h1>
+  <h2>Presiona y confía 😌</h2>
+  <button onclick="start()">Entrar</button>
+</div>
+
+<script>
+
+const app = document.getElementById("app");
+const music = document.getElementById("music");
+
+/* 🔐 BTS bloqueado */
+let btsUnlocked = false;
+
+/* 🚀 INICIO */
+function start() {
+  app.innerHTML = `
+    <h2>Ok... mood check 😏</h2>
+    <p>¿Cómo va el día?</p>
+
+    <h5>no podrás presionar el botón "Medio meh" 😈</h5>
+
+    <button onclick="good()">Chill 😎</button>
+    <button id="bad">Medio meh 😅</button>
+  `;
+
+  const bad = document.getElementById("bad");
+
+  bad.addEventListener("mouseover", () => {
+    bad.style.transform = `translate(${Math.random()*200}px,${Math.random()*200}px)`;
+  });
+}
+
+/* 😌 CONTINÚA */
+function good() {
+  app.innerHTML = `
+    <h2>Nice 😌</h2>
+    <p>Sigamos...</p>
+
+    <button onclick="next()">Continuar</button>
+  `;
+}
+
+/* 🎶 SELECCIÓN */
+function next() {
+  app.innerHTML = `
+    <h2>🎶 Elige tu vibe</h2>
+
+    <button onclick="choose()">BTS 💜</button>
+    <button onclick="choose1()">Algo random 🎧</button>
+    <button onclick="choose2()">Flow 🔥</button>
+  `;
+}
+
+/* 🔊 MÚSICA */
+function playMusic() {
+  music.currentTime = 0;
+  music.volume = 0.5;
+  music.play().catch(()=>{});
+}
+
+/* 💜 BTS (BLOQUEADO HASTA DESBLOQUEO) */
+function choose() {
+
+  if (!btsUnlocked) {
+    app.innerHTML = `
+      <h2>🔒 BTS bloqueado</h2>
+      <p>Primero explora otro modo 😌</p>
+
+      <button onclick="next()">Volver</button>
+    `;
+    return;
+  }
+
+  playMusic();
+
+  app.innerHTML = `
+    <h2>Sabía que ibas por BTS 😏</h2>
+    <p>Buena elección 💜</p>
+
+    <img src="img1.jpg">
+    <br>
+
+    <button onclick="next()">⬅ Atrás</button>
+    <button onclick="final()">Continuar</button>   
+  `;
+}
+
+/* 🎧 RANDOM (DESBLOQUEA BTS) */
+function choose1() {
+  btsUnlocked = true;
+  playMusic();
+
+  app.innerHTML = `
+    <h2>Interesante, pero solo BTS 😎</h2>
+    <p>100% 🔊, NO ENTIENDOO!</p>
+
+    <img src="Jungkook.jpg">
+    <br>
+
+    <button onclick="next()">⬅ Atrás</button>   
+  `;
+}
+
+/* 🔥 FLOW (DESBLOQUEA BTS) */
+function choose2() {
+  btsUnlocked = true;
+  playMusic();
+
+  app.innerHTML = `
+    <h2>Flow detectado 🔥, solo hay audio de BTS 😄</h2>
+    <p>100% 🔊, sin reglas 😌</p>
+
+    <img src="dori.jpg">
+    <br>
+
+    <button onclick="next()">⬅ Atrás</button>
+  `;
+}
+
+/* 🎊 CONFETI */
+function confetti() {
+  const interval = setInterval(() => {
+    const c = document.createElement("div");
+    c.className = "fx";
+    c.style.background = `hsl(${Math.random()*360},100%,50%)`;
+    c.style.left = Math.random()*100+"vw";
+    c.style.top = "-10px";
+    document.body.appendChild(c);
+
+    let y = 0;
+
+    const anim = setInterval(() => {
+      y += 6;
+      c.style.transform = `translateY(${y}px)`;
+
+      if (y > window.innerHeight) {
+        clearInterval(anim);
+        c.remove();
+      }
+    }, 16);
+
+  }, 70);
+
+  setTimeout(() => clearInterval(interval), 5000);
+}
+
+/* 🎉 FINAL */
+function final() {
+  app.innerHTML = `
+    <h1>🎉 Feliz Cumple 🎉</h1>
+    <h2>Crystel Lissette</h2>
+
+    <p>No sabía qué regalarte,<br> así que salió esto 😅</p>
+
+    <p>Un detalle sencillo para hoy 😌</p>
+
+    <p style="opacity:0.6;">(bonus track incluido 🎶)</p>
+  `;
+
+  confetti();
+}
+
+</script>
+
+</body>
+</html>
