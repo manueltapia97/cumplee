@@ -229,12 +229,15 @@ function good(){
 
     <p>Sigamos...</p>
 
-    <button onclick="next()">
-      Continuar ✨
+    <button id="continueNice">
+      Continuar
     </button>
   `;
-}
 
+  document
+    .getElementById("continueNice")
+    .addEventListener("click", next);
+}
 function next(){
 
   const status1 =
