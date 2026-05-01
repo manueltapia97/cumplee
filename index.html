@@ -2,58 +2,171 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>🎤 Mini Experience</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle at top, #1a1a1a, #000);
-  color: white;
-  overflow: hidden;
-  text-align: center;
+
+*{
+  box-sizing:border-box;
 }
 
-.container {
-  margin-top: 12vh;
-  padding: 20px;
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:
+    radial-gradient(circle at top,#2b1144,#000);
+  color:white;
+  overflow:hidden;
+  text-align:center;
+  min-height:100vh;
 }
 
-button {
-  padding: 12px 18px;
-  margin: 10px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  background: linear-gradient(45deg, purple, hotpink);
-  color: white;
-  font-weight: bold;
-  transition: 0.2s;
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,0,255,.18),transparent 25%),
+    radial-gradient(circle at 80% 10%,rgba(0,140,255,.15),transparent 25%);
+  pointer-events:none;
 }
 
-button:hover {
-  transform: scale(1.1);
+.container{
+  width:100%;
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+
+  padding:24px;
+  position:relative;
+  z-index:2;
 }
 
-img {
-  width: 220px;
-  margin-top: 15px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.15);
+h1{
+  font-size:2.3rem;
+  margin-bottom:10px;
 }
 
-.fx {
-  position: fixed;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+h2{
+  font-size:1.4rem;
+  font-weight:500;
+  margin-bottom:10px;
 }
+
+p{
+  font-size:1rem;
+  line-height:1.5;
+  opacity:.9;
+}
+
+h5{
+  opacity:.6;
+  margin-bottom:20px;
+}
+
+button{
+  width:100%;
+  max-width:280px;
+
+  padding:15px 20px;
+  margin:10px 0;
+
+  border:none;
+  border-radius:18px;
+
+  cursor:pointer;
+
+  background:linear-gradient(
+    135deg,
+    #7b2ff7,
+    #f107a3
+  );
+
+  color:white;
+  font-size:1rem;
+  font-weight:700;
+
+  box-shadow:
+    0 10px 25px rgba(241,7,163,.25);
+
+  transition:.25s;
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+button:hover{
+  transform:translateY(-2px);
+}
+
+img{
+  width:100%;
+  max-width:280px;
+
+  margin-top:20px;
+
+  border-radius:22px;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.45),
+    0 0 25px rgba(255,255,255,.08);
+
+  animation:fade .5s ease;
+}
+
+@keyframes fade{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.fx{
+  position:fixed;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  z-index:999;
+}
+
+@media(max-width:480px){
+
+  h1{
+    font-size:2rem;
+  }
+
+  h2{
+    font-size:1.2rem;
+  }
+
+  p{
+    font-size:.95rem;
+  }
+
+  button{
+    font-size:.95rem;
+    padding:14px;
+  }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 AUDIO -->
 <audio id="music" preload="auto">
   <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -61,7 +174,10 @@ img {
 <div class="container" id="app">
   <h1>🎤 Mini Experience</h1>
   <h2>Presiona y confía 😌</h2>
-  <button onclick="start()">Entrar</button>
+
+  <button onclick="start()">
+    Entrar ✨
+  </button>
 </div>
 
 <script>
@@ -69,66 +185,115 @@ img {
 const app = document.getElementById("app");
 const music = document.getElementById("music");
 
-/* 🔐 BTS bloqueado */
 let btsUnlocked = false;
 
-/* 🚀 INICIO */
-function start() {
+function start(){
+
   app.innerHTML = `
     <h2>Ok... mood check 😏</h2>
+
     <p>¿Cómo va el día?</p>
 
-    <h5>no podrás presionar el botón "Medio meh" 😈</h5>
+    <h5>
+      no podrás presionar el botón
+      "Medio meh" 😈
+    </h5>
 
-    <button onclick="good()">Chill 😎</button>
-    <button id="bad">Medio meh 😅</button>
+    <button onclick="good()">
+      Chill 😎
+    </button>
+
+    <button id="bad">
+      Medio meh 😅
+    </button>
   `;
 
   const bad = document.getElementById("bad");
 
-  bad.addEventListener("mouseover", () => {
-    bad.style.transform = `translate(${Math.random()*200}px,${Math.random()*200}px)`;
-  });
+  function moveButton(){
+
+    const x = Math.random()*120 - 60;
+    const y = Math.random()*120 - 60;
+
+    bad.style.transform =
+      `translate(${x}px,${y}px)`;
+  }
+
+  bad.addEventListener("mouseover",moveButton);
+  bad.addEventListener("touchstart",moveButton);
 }
 
-/* 😌 CONTINÚA */
-function good() {
+function good(){
+
   app.innerHTML = `
     <h2>Nice 😌</h2>
+
     <p>Sigamos...</p>
 
-    <button onclick="next()">Continuar</button>
+    <button onclick="next()">
+      Continuar ✨
+    </button>
   `;
 }
 
-/* 🎶 SELECCIÓN */
-function next() {
+function next(){
+
+  const status1 =
+    visitedRandom ? "✅" : "❌";
+
+  const status2 =
+    visitedFlow ? "✅" : "❌";
+
   app.innerHTML = `
     <h2>🎶 Elige tu vibe</h2>
 
-    <button onclick="choose()">BTS 💜</button>
-    <button onclick="choose1()">Algo random 🎧</button>
-    <button onclick="choose2()">Flow 🔥</button>
+    <p style="opacity:.7;">
+      Desbloquea BTS explorando
+      los otros modos 😌
+    </p>
+
+    <button onclick="choose()">
+      BTS 💜
+    </button>
+
+    <button onclick="choose1()">
+      Algo random 🎧 ${status1}
+    </button>
+
+    <button onclick="choose2()">
+      Flow 🔥 ${status2}
+    </button>
   `;
 }
+  
+function playMusic(){
 
-/* 🔊 MÚSICA */
-function playMusic() {
   music.currentTime = 0;
   music.volume = 0.5;
+
   music.play().catch(()=>{});
 }
+function choose(){
 
-/* 💜 BTS (BLOQUEADO HASTA DESBLOQUEO) */
-function choose() {
+  if(!(visitedRandom && visitedFlow)){
 
-  if (!btsUnlocked) {
     app.innerHTML = `
       <h2>🔒 BTS bloqueado</h2>
-      <p>Primero explora otro modo 😌</p>
 
-      <button onclick="next()">Volver</button>
+      <p>
+        Debes probar:
+      </p>
+
+      <p>
+        🎧 Algo random<br>
+        🔥 Flow
+      </p>
+
+      <button onclick="next()">
+        Volver
+      </button>
     `;
+
     return;
   }
 
@@ -136,89 +301,139 @@ function choose() {
 
   app.innerHTML = `
     <h2>Sabía que ibas por BTS 😏</h2>
+
     <p>Buena elección 💜</p>
 
     <img src="img1.jpg">
-    <br>
 
-    <button onclick="next()">⬅ Atrás</button>
-    <button onclick="final()">Continuar</button>   
+    <button onclick="next()">
+      ⬅ Atrás
+    </button>
+
+    <button onclick="final()">
+      Continuar ✨
+    </button>
   `;
 }
 
-/* 🎧 RANDOM (DESBLOQUEA BTS) */
-function choose1() {
-  btsUnlocked = true;
+function choose1(){
+
+  visitedRandom = true;
+
   playMusic();
 
   app.innerHTML = `
-    <h2>Interesante, pero solo BTS 😎</h2>
-    <p>100% 🔊, NO ENTIENDOO!</p>
+    <h2>
+      Interesante,
+      pero solo BTS 😎
+    </h2>
+
+    <p>
+      100% 🔊,
+      NO ENTIENDOO!
+    </p>
 
     <img src="Jungkook.jpg">
-    <br>
 
-    <button onclick="next()">⬅ Atrás</button>   
+    <button onclick="next()">
+      ⬅ Atrás
+    </button>
   `;
 }
 
-/* 🔥 FLOW (DESBLOQUEA BTS) */
-function choose2() {
-  btsUnlocked = true;
+function choose2(){
+
+  visitedFlow = true;
+
   playMusic();
 
   app.innerHTML = `
-    <h2>Flow detectado 🔥, solo hay audio de BTS 😄</h2>
-    <p>100% 🔊, sin reglas 😌</p>
+    <h2>
+      Flow detectado 🔥
+    </h2>
+
+    <p>
+      solo hay audio de BTS 😄
+    </p>
 
     <img src="dori.jpg">
-    <br>
 
-    <button onclick="next()">⬅ Atrás</button>
+    <button onclick="next()">
+      ⬅ Atrás
+    </button>
   `;
 }
 
-/* 🎊 CONFETI */
-function confetti() {
-  const interval = setInterval(() => {
-    const c = document.createElement("div");
+function confetti(){
+
+  const interval = setInterval(()=>{
+
+    const c =
+      document.createElement("div");
+
     c.className = "fx";
-    c.style.background = `hsl(${Math.random()*360},100%,50%)`;
-    c.style.left = Math.random()*100+"vw";
+
+    c.style.background =
+      `hsl(${Math.random()*360},
+      100%,50%)`;
+
+    c.style.left =
+      Math.random()*100+"vw";
+
     c.style.top = "-10px";
+
     document.body.appendChild(c);
 
     let y = 0;
 
-    const anim = setInterval(() => {
-      y += 6;
-      c.style.transform = `translateY(${y}px)`;
+    const anim = setInterval(()=>{
 
-      if (y > window.innerHeight) {
+      y += 6;
+
+      c.style.transform =
+        `translateY(${y}px)`;
+
+      if(y > window.innerHeight){
+
         clearInterval(anim);
+
         c.remove();
       }
-    }, 16);
 
-  }, 70);
+    },16);
 
-  setTimeout(() => clearInterval(interval), 5000);
+  },70);
+
+  setTimeout(
+    ()=>clearInterval(interval),
+    5000
+  );
 }
 
-/* 🎉 FINAL */
-function final() {
+function final(){
+
   app.innerHTML = `
     <h1>🎉 Feliz Cumple 🎉</h1>
-    <h2>Crystel Lissette</h2>
 
-    <p>No sabía qué regalarte,<br> así que salió esto 😅</p>
+    <h2>Crystel Lissette 💜</h2>
 
-    <p>Un detalle sencillo para hoy 😌</p>
-    <br>
-     <img src="img_concierto.png">
-    <br>
+    <p>
+      No sabía qué regalarte,
+      así que salió esto 😅
+    </p>
+
+    <p>
+      Un detalle sencillo
+      para hoy 😌
+    </p>
+
+    <img src="img_concierto.png">
+
     <p>07/10/2026</p>
-    <p style="opacity:0.6;">(bonus track incluido 🎶)</p>
+
+    <p style="opacity:.6;">
+      (bonus track incluido 🎶)
+    </p>
   `;
 
   confetti();
